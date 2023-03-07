@@ -1,15 +1,9 @@
-import {
-  View,
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  ScrollView,
-} from 'react-native';
-import React, {useState, useEffect, useCallback} from 'react';
+import { View, TouchableOpacity, Text, StyleSheet, ScrollView } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
 import CheckScreen from '../../../assets/Custom/CustomCheckScreen';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as f from '../../redux/action/action';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import Modal from 'react-native-modal';
 const Setting = () => {
   const [isCheckedHome, setIsCheckedHome] = useState(false);
@@ -45,9 +39,7 @@ const Setting = () => {
     isCheckedContact ? setIsCheckedContact(false) : setIsCheckedContact(true);
   }, [isCheckedContact]);
   const onPressLanguage = useCallback(() => {
-    isCheckedLanguage
-      ? setIsCheckedLanguage(false)
-      : setIsCheckedLanguage(true);
+    isCheckedLanguage ? setIsCheckedLanguage(false) : setIsCheckedLanguage(true);
   }, [isCheckedLanguage]);
   const onPressVehicle = useCallback(() => {
     isCheckedVehicle ? setIsCheckedVehicle(false) : setIsCheckedVehicle(true);
@@ -189,52 +181,16 @@ const Setting = () => {
   ]);
 
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <CheckScreen
-        label="Home"
-        isSelectdCheck={isCheckedHome}
-        onPress={onPressHome}
-      />
-      <CheckScreen
-        label="User"
-        isSelectdCheck={isCheckedUser}
-        onPress={onPressUser}
-      />
-      <CheckScreen
-        label="About"
-        isSelectdCheck={isCheckedAbout}
-        onPress={onPressAbout}
-      />
-      <CheckScreen
-        label="Admin"
-        isSelectdCheck={isCheckedAdmin}
-        onPress={onPressAdmin}
-      />
-      <CheckScreen
-        label="Vehicle"
-        isSelectdCheck={isCheckedVehicle}
-        onPress={onPressVehicle}
-      />
-      <CheckScreen
-        label="Language"
-        isSelectdCheck={isCheckedLanguage}
-        onPress={onPressLanguage}
-      />
-      <CheckScreen
-        label="Apple"
-        isSelectdCheck={isCheckedApple}
-        onPress={onPressApple}
-      />
-      <CheckScreen
-        label="Contact"
-        isSelectdCheck={isCheckedContact}
-        onPress={onPressContact}
-      />
-      <CheckScreen
-        label="Banana"
-        isSelectdCheck={isCheckedBanana}
-        onPress={onPressBanana}
-      />
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <CheckScreen label="Home" isSelectdCheck={isCheckedHome} onPress={onPressHome} />
+      <CheckScreen label="User" isSelectdCheck={isCheckedUser} onPress={onPressUser} />
+      <CheckScreen label="About" isSelectdCheck={isCheckedAbout} onPress={onPressAbout} />
+      <CheckScreen label="Admin" isSelectdCheck={isCheckedAdmin} onPress={onPressAdmin} />
+      <CheckScreen label="Vehicle" isSelectdCheck={isCheckedVehicle} onPress={onPressVehicle} />
+      <CheckScreen label="Language" isSelectdCheck={isCheckedLanguage} onPress={onPressLanguage} />
+      <CheckScreen label="Apple" isSelectdCheck={isCheckedApple} onPress={onPressApple} />
+      <CheckScreen label="Contact" isSelectdCheck={isCheckedContact} onPress={onPressContact} />
+      <CheckScreen label="Banana" isSelectdCheck={isCheckedBanana} onPress={onPressBanana} />
       <CheckScreen label="Setting" isSelectdCheck={isCheckedSetting} />
       <View style={styles.viewFooter}>
         <TouchableOpacity style={styles.touchFooter} onPress={onPressOK}>
@@ -244,7 +200,8 @@ const Setting = () => {
 
       <Modal
         isVisible={modalShowErr}
-        style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+      >
         <View style={styles.popupShowErr}>
           <Text
             style={{
@@ -252,13 +209,12 @@ const Setting = () => {
               fontSize: 20,
               fontWeight: '700',
               color: 'red',
-            }}>
+            }}
+          >
             Error !! Please choose 5 items
           </Text>
           <View style={styles.viewBtnPopupErr}>
-            <TouchableOpacity
-              style={styles.btnConfirm}
-              onPress={onHidePopUpERR}>
+            <TouchableOpacity style={styles.btnConfirm} onPress={onHidePopUpERR}>
               <Text style={styles.textButton}>Okay</Text>
             </TouchableOpacity>
           </View>

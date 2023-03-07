@@ -6,9 +6,7 @@
     "extends": [
         "plugin:react/recommended",
         "airbnb",
-        "airbnb/hooks",
-        "prettier",
-        "prettier/react"
+        "airbnb/hooks"
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -18,8 +16,10 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "react-native"
     ],
     "rules": {
+        
     }
 }

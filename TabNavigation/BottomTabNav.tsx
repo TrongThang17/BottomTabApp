@@ -1,6 +1,6 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../src/screen/Home/Home';
 import Setting from '../src/screen/Setting/Setting';
 import About from '../src/screen/About/About';
@@ -11,15 +11,25 @@ import Contact from '../src/screen/Contact/Contact';
 import Language from '../src/screen/Language/Language';
 import User from '../src/screen/User/User';
 import Vehicle from '../src/screen/Vehicle/Vehicle';
-import {useSelector} from 'react-redux';
-import {Image} from 'react-native';
-import {image} from '../assets/img/imgages';
+import { useSelector } from 'react-redux';
+import { Image } from 'react-native';
+import { image } from '../assets/img/imgages';
 
 const Tab = createBottomTabNavigator();
 export default () => {
   const data = useSelector((state: any) => state.reducerChangeTab.data);
-  let tab1, tab2, tab3, tab4, img1, img2, img3, img4;
-  let screen1: any, screen2: any, screen3: any, screen4: any;
+  let tab1,
+    tab2,
+    tab3,
+    tab4,
+    img1: any,
+    img2: any,
+    img3: any,
+    img4: any,
+    screen1: any,
+    screen2: any,
+    screen3: any,
+    screen4: any;
   (tab1 = data[0]), (tab2 = data[1]), (tab3 = data[2]), (tab4 = data[3]);
 
   tab1 == 'Home'
@@ -110,7 +120,7 @@ export default () => {
           component={screen1}
           options={{
             tabBarIcon: () => {
-              return <Image source={img1} style={{width: 30, height: 30}} />;
+              return <Image source={img1} style={{ width: 30, height: 30 }} />;
             },
           }}
         />
@@ -119,7 +129,7 @@ export default () => {
           component={screen2}
           options={{
             tabBarIcon: () => {
-              return <Image source={img2} style={{width: 30, height: 30}} />;
+              return <Image source={img2} style={{ width: 30, height: 30 }} />;
             },
           }}
         />
@@ -128,7 +138,7 @@ export default () => {
           component={screen3}
           options={{
             tabBarIcon: () => {
-              return <Image source={img3} style={{width: 30, height: 30}} />;
+              return <Image source={img3} style={{ width: 30, height: 30 }} />;
             },
           }}
         />
@@ -137,7 +147,7 @@ export default () => {
           component={screen4}
           options={{
             tabBarIcon: () => {
-              return <Image source={img4} style={{width: 30, height: 30}} />;
+              return <Image source={img4} style={{ width: 30, height: 30 }} />;
             },
           }}
         />
@@ -146,9 +156,7 @@ export default () => {
           component={Setting}
           options={{
             tabBarIcon: () => {
-              return (
-                <Image source={image.setting} style={{width: 30, height: 30}} />
-              );
+              return <Image source={image.setting} style={{ width: 30, height: 30 }} />;
             },
           }}
         />
