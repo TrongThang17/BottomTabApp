@@ -1,197 +1,304 @@
-import { View, TouchableOpacity, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
 import React, { useState, useEffect, useCallback } from 'react';
-import CheckScreen from '../../../assets/Custom/CustomCheckScreen';
+import CheckScreen from '../../../assets/custom/CustomCheckScreen';
+import ItemCheckBoxScreen from '../../../assets/custom/ItemCheckBoxScreen';
 import { useDispatch } from 'react-redux';
 import * as f from '../../redux/action/action';
 import { useSelector } from 'react-redux';
+import Home from '../home/Home';
+import About from '../about/About';
+import Admin from '../admin/Admin';
+import Apple from '../apple/Apple';
+import Banana from '../banana/Banana';
+import Contact from '../contact/Contact';
+import Language from '../language/Language';
+import User from '../user/User';
+import Vehicle from '../vehicle/Vehicle';
 import Modal from 'react-native-modal';
+import { image } from '../../../assets/img/imgages';
 const Setting = () => {
-  const [isCheckedHome, setIsCheckedHome] = useState(false);
-  const [isCheckedUser, setIsCheckedUser] = useState(false);
-  const [isCheckedBanana, setIsCheckedBanana] = useState(false);
-  const [isCheckedApple, setIsCheckedApple] = useState(false);
-  const [isCheckedAdmin, setIsCheckedAdmin] = useState(false);
-  const [isCheckedContact, setIsCheckedContact] = useState(false);
-  const [isCheckedLanguage, setIsCheckedLanguage] = useState(false);
-  const [isCheckedVehicle, setIsCheckedVehicle] = useState(false);
-  const [isCheckedSetting, setIsCheckedSetting] = useState(true);
-  const [isCheckedAbout, setIsCheckedAbout] = useState(false);
+  // const [isCheckedHome, setIsCheckedHome] = useState(false);
+  // const [isCheckedUser, setIsCheckedUser] = useState(false);
+  // const [isCheckedBanana, setIsCheckedBanana] = useState(false);
+  // const [isCheckedApple, setIsCheckedApple] = useState(false);
+  // const [isCheckedAdmin, setIsCheckedAdmin] = useState(false);
+  // const [isCheckedContact, setIsCheckedContact] = useState(false);
+  // const [isCheckedLanguage, setIsCheckedLanguage] = useState(false);
+  // const [isCheckedVehicle, setIsCheckedVehicle] = useState(false);
+  // const [isCheckedSetting, setIsCheckedSetting] = useState(true);
+  // const [isCheckedAbout, setIsCheckedAbout] = useState(false);
+  const [selectedCheck, setSelectedCheck]: any = useState(new Map());
+  const [allDataCheckbox, setAllDataCheckbox]: any = useState([]);
   const [modalShowErr, setModalShowErr] = useState(false);
   const dispatch = useDispatch();
   const dataScreen = useSelector((state: any) => state.reducerChangeTab.data);
-  const data: any = [];
-  const onPressHome = useCallback(() => {
-    isCheckedHome ? setIsCheckedHome(false) : setIsCheckedHome(true);
-  }, [isCheckedHome]);
-  const onPressUser = useCallback(() => {
-    isCheckedUser ? setIsCheckedUser(false) : setIsCheckedUser(true);
-  }, [isCheckedUser]);
-  const onPressBanana = useCallback(() => {
-    isCheckedBanana ? setIsCheckedBanana(false) : setIsCheckedBanana(true);
-  }, [isCheckedBanana]);
-  const onPressApple = useCallback(() => {
-    isCheckedApple ? setIsCheckedApple(false) : setIsCheckedApple(true);
-  }, [isCheckedApple]);
-  const onPressAdmin = useCallback(() => {
-    isCheckedAdmin ? setIsCheckedAdmin(false) : setIsCheckedAdmin(true);
-  }, [isCheckedAdmin]);
-  const onPressContact = useCallback(() => {
-    isCheckedContact ? setIsCheckedContact(false) : setIsCheckedContact(true);
-  }, [isCheckedContact]);
-  const onPressLanguage = useCallback(() => {
-    isCheckedLanguage ? setIsCheckedLanguage(false) : setIsCheckedLanguage(true);
-  }, [isCheckedLanguage]);
-  const onPressVehicle = useCallback(() => {
-    isCheckedVehicle ? setIsCheckedVehicle(false) : setIsCheckedVehicle(true);
-  }, [isCheckedVehicle]);
-  const onPressSetting = useCallback(() => {
-    isCheckedSetting ? setIsCheckedSetting(false) : setIsCheckedSetting(true);
-  }, [isCheckedSetting]);
-  const onPressAbout = useCallback(() => {
-    isCheckedAbout ? setIsCheckedAbout(false) : setIsCheckedAbout(true);
-  }, [isCheckedAbout]);
+  const dataScreen1 = useSelector((state: any) => state.reducerChangeTab.data1);
+  const inf = useSelector((state: any) => state.reducerChangeTab.data);
+  const data1 = [
+    {
+      id: 1,
+      screen: 'Home',
 
-  const onPressOK = () => {
-    data.length == 4
-      ? [
-          setModalShowErr(false),
-          dispatch({
-            type: f.SELECT_SCREEN,
-            payload: {
-              data,
-            },
-          }),
-        ]
-      : setModalShowErr(true);
+      icon: image.home,
+    },
+    {
+      id: 2,
+      screen: 'Contact',
+
+      icon: image.contact,
+    },
+    {
+      id: 3,
+      screen: 'User',
+
+      icon: image.user,
+    },
+    {
+      id: 4,
+      screen: 'Admin',
+
+      icon: image.admin,
+    },
+    {
+      id: 5,
+      screen: 'Setting',
+
+      icon: image.setting,
+    },
+    {
+      id: 6,
+      screen: 'Apple',
+
+      icon: image.home,
+    },
+    {
+      id: 7,
+      screen: 'Banana',
+
+      icon: image.contact,
+    },
+    {
+      id: 8,
+      screen: 'Language',
+
+      icon: image.user,
+    },
+    {
+      id: 9,
+      screen: 'Vehicle',
+
+      icon: image.admin,
+    },
+    {
+      id: 10,
+      screen: 'Setting',
+
+      icon: image.setting,
+    },
+  ];
+
+  // const onSelectCheck = useCallback(
+  //   (id: any) => {
+  //     const newSelected = new Map(selectedCheck);
+  //     newSelected.set(id, !selectedCheck.get(id));
+  //     setSelectedCheck(newSelected);
+  //   },
+  //   [selectedCheck]
+  // );
+  const onSelectCheck = (id: any) => {
+    const newSelectedCheck = new Map(selectedCheck);
+    let arr: any = data1;
+    console.log(id)
+    newSelectedCheck.set(id, !selectedCheck.get(id));
+    setSelectedCheck(newSelectedCheck);
+    arr.forEach((element: any) => {
+      if (newSelectedCheck.get(element.id) == true) {
+        arr.push(element.screen);
+      }
+    });
+    setAllDataCheckbox(arr);
   };
 
-  useEffect(() => {
-    let tab1: string, tab2: string, tab3: string, tab4: string;
-    (tab1 = dataScreen[0]),
-      (tab2 = dataScreen[1]),
-      (tab3 = dataScreen[2]),
-      (tab4 = dataScreen[3]),
-      tab1 == 'Home'
-        ? setIsCheckedHome(true)
-        : tab1 == 'User'
-        ? setIsCheckedUser(true)
-        : tab1 == 'About'
-        ? setIsCheckedAbout(true)
-        : tab1 == 'Contact'
-        ? setIsCheckedContact(true)
-        : tab1 == 'Language'
-        ? setIsCheckedLanguage(true)
-        : tab1 == 'Vehicle'
-        ? setIsCheckedVehicle(true)
-        : tab1 == 'Admin'
-        ? setIsCheckedAdmin(true)
-        : tab1 == 'Apple'
-        ? setIsCheckedApple(true)
-        : tab1 == 'Banana'
-        ? setIsCheckedBanana(true)
-        : '';
+  // const onPressHome = useCallback(() => {
+  //   isCheckedHome ? setIsCheckedHome(false) : setIsCheckedHome(true);
+  // }, [isCheckedHome]);
+  // const onPressUser = useCallback(() => {
+  //   isCheckedUser ? setIsCheckedUser(false) : setIsCheckedUser(true);
+  // }, [isCheckedUser]);
+  // const onPressBanana = useCallback(() => {
+  //   isCheckedBanana ? setIsCheckedBanana(false) : setIsCheckedBanana(true);
+  // }, [isCheckedBanana]);
+  // const onPressApple = useCallback(() => {
+  //   isCheckedApple ? setIsCheckedApple(false) : setIsCheckedApple(true);
+  // }, [isCheckedApple]);
+  // const onPressAdmin = useCallback(() => {
+  //   isCheckedAdmin ? setIsCheckedAdmin(false) : setIsCheckedAdmin(true);
+  // }, [isCheckedAdmin]);
+  // const onPressContact = useCallback(() => {
+  //   isCheckedContact ? setIsCheckedContact(false) : setIsCheckedContact(true);
+  // }, [isCheckedContact]);
+  // const onPressLanguage = useCallback(() => {
+  //   isCheckedLanguage ? setIsCheckedLanguage(false) : setIsCheckedLanguage(true);
+  // }, [isCheckedLanguage]);
+  // const onPressVehicle = useCallback(() => {
+  //   isCheckedVehicle ? setIsCheckedVehicle(false) : setIsCheckedVehicle(true);
+  // }, [isCheckedVehicle]);
+  // const onPressSetting = useCallback(() => {
+  //   isCheckedSetting ? setIsCheckedSetting(false) : setIsCheckedSetting(true);
+  // }, [isCheckedSetting]);
+  // const onPressAbout = useCallback(() => {
+  //   isCheckedAbout ? setIsCheckedAbout(false) : setIsCheckedAbout(true);
+  // }, [isCheckedAbout]);
 
-    tab2 == 'Home'
-      ? setIsCheckedHome(true)
-      : tab2 == 'User'
-      ? setIsCheckedUser(true)
-      : tab2 == 'About'
-      ? setIsCheckedAbout(true)
-      : tab2 == 'Contact'
-      ? setIsCheckedContact(true)
-      : tab2 == 'Language'
-      ? setIsCheckedLanguage(true)
-      : tab2 == 'Vehicle'
-      ? setIsCheckedVehicle(true)
-      : tab2 == 'Admin'
-      ? setIsCheckedAdmin(true)
-      : tab2 == 'Apple'
-      ? setIsCheckedApple(true)
-      : tab2 == 'Banana'
-      ? setIsCheckedBanana(true)
-      : '';
+  const onPressOK = () => {
+    // data.length == 4
+    //   ? [
+    //       setModalShowErr(false),
+    //       dispatch({
+    //         type: f.SELECT_SCREEN,
+    //         payload: {
+    //           data,
+    //         },
+    //       }),
+    //     ]
+    //   : setModalShowErr(true);
+    // selectedCheck.forEach((el: any) => {
+    //   console.log(!selectedCheck.get(el.screen));
+    // });
+    console.log(selectedCheck);
+  };
 
-    tab3 == 'Home'
-      ? setIsCheckedHome(true)
-      : tab3 == 'User'
-      ? setIsCheckedUser(true)
-      : tab3 == 'About'
-      ? setIsCheckedAbout(true)
-      : tab3 == 'Contact'
-      ? setIsCheckedContact(true)
-      : tab3 == 'Language'
-      ? setIsCheckedLanguage(true)
-      : tab3 == 'Vehicle'
-      ? setIsCheckedVehicle(true)
-      : tab3 == 'Admin'
-      ? setIsCheckedAdmin(true)
-      : tab3 == 'Apple'
-      ? setIsCheckedApple(true)
-      : tab3 == 'Banana'
-      ? setIsCheckedBanana(true)
-      : '';
+  // useEffect(() => {
+  //   let tab1: string, tab2: string, tab3: string, tab4: string;
+  //   (tab1 = dataScreen[0]),
+  //     (tab2 = dataScreen[1]),
+  //     (tab3 = dataScreen[2]),
+  //     (tab4 = dataScreen[3]),
+  //     tab1 == 'Home'
+  //       ? setIsCheckedHome(true)
+  //       : tab1 == 'User'
+  //       ? setIsCheckedUser(true)
+  //       : tab1 == 'About'
+  //       ? setIsCheckedAbout(true)
+  //       : tab1 == 'Contact'
+  //       ? setIsCheckedContact(true)
+  //       : tab1 == 'Language'
+  //       ? setIsCheckedLanguage(true)
+  //       : tab1 == 'Vehicle'
+  //       ? setIsCheckedVehicle(true)
+  //       : tab1 == 'Admin'
+  //       ? setIsCheckedAdmin(true)
+  //       : tab1 == 'Apple'
+  //       ? setIsCheckedApple(true)
+  //       : tab1 == 'Banana'
+  //       ? setIsCheckedBanana(true)
+  //       : '';
 
-    tab4 == 'Home'
-      ? setIsCheckedHome(true)
-      : tab4 == 'User'
-      ? setIsCheckedUser(true)
-      : tab4 == 'About'
-      ? setIsCheckedAbout(true)
-      : tab4 == 'Contact'
-      ? setIsCheckedContact(true)
-      : tab4 == 'Language'
-      ? setIsCheckedLanguage(true)
-      : tab4 == 'Vehicle'
-      ? setIsCheckedVehicle(true)
-      : tab4 == 'Admin'
-      ? setIsCheckedAdmin(true)
-      : tab4 == 'Apple'
-      ? setIsCheckedApple(true)
-      : tab4 == 'Banana'
-      ? setIsCheckedBanana(true)
-      : '';
-  }, []);
+  //   tab2 == 'Home'
+  //     ? setIsCheckedHome(true)
+  //     : tab2 == 'User'
+  //     ? setIsCheckedUser(true)
+  //     : tab2 == 'About'
+  //     ? setIsCheckedAbout(true)
+  //     : tab2 == 'Contact'
+  //     ? setIsCheckedContact(true)
+  //     : tab2 == 'Language'
+  //     ? setIsCheckedLanguage(true)
+  //     : tab2 == 'Vehicle'
+  //     ? setIsCheckedVehicle(true)
+  //     : tab2 == 'Admin'
+  //     ? setIsCheckedAdmin(true)
+  //     : tab2 == 'Apple'
+  //     ? setIsCheckedApple(true)
+  //     : tab2 == 'Banana'
+  //     ? setIsCheckedBanana(true)
+  //     : '';
+
+  //   tab3 == 'Home'
+  //     ? setIsCheckedHome(true)
+  //     : tab3 == 'User'
+  //     ? setIsCheckedUser(true)
+  //     : tab3 == 'About'
+  //     ? setIsCheckedAbout(true)
+  //     : tab3 == 'Contact'
+  //     ? setIsCheckedContact(true)
+  //     : tab3 == 'Language'
+  //     ? setIsCheckedLanguage(true)
+  //     : tab3 == 'Vehicle'
+  //     ? setIsCheckedVehicle(true)
+  //     : tab3 == 'Admin'
+  //     ? setIsCheckedAdmin(true)
+  //     : tab3 == 'Apple'
+  //     ? setIsCheckedApple(true)
+  //     : tab3 == 'Banana'
+  //     ? setIsCheckedBanana(true)
+  //     : '';
+
+  //   tab4 == 'Home'
+  //     ? setIsCheckedHome(true)
+  //     : tab4 == 'User'
+  //     ? setIsCheckedUser(true)
+  //     : tab4 == 'About'
+  //     ? setIsCheckedAbout(true)
+  //     : tab4 == 'Contact'
+  //     ? setIsCheckedContact(true)
+  //     : tab4 == 'Language'
+  //     ? setIsCheckedLanguage(true)
+  //     : tab4 == 'Vehicle'
+  //     ? setIsCheckedVehicle(true)
+  //     : tab4 == 'Admin'
+  //     ? setIsCheckedAdmin(true)
+  //     : tab4 == 'Apple'
+  //     ? setIsCheckedApple(true)
+  //     : tab4 == 'Banana'
+  //     ? setIsCheckedBanana(true)
+  //     : '';
+  // }, []);
 
   const onHidePopUpERR = useCallback(() => {
     setModalShowErr(false);
   }, []);
 
-  useEffect(() => {
-    isCheckedHome ? data.push('Home') : '';
-    isCheckedUser ? data.push('User') : '';
-    isCheckedAbout ? data.push('About') : '';
-    isCheckedAdmin ? data.push('Admin') : '';
-    isCheckedVehicle ? data.push('Vehicle') : '';
-    isCheckedLanguage ? data.push('Language') : '';
-    isCheckedApple ? data.push('Apple') : '';
-    isCheckedContact ? data.push('Contact') : '';
-    isCheckedBanana ? data.push('Banana') : '';
-  }, [
-    onPressHome,
-    onPressAbout,
-    onPressAdmin,
-    onPressApple,
-    onPressBanana,
-    onPressContact,
-    onPressLanguage,
-    onPressSetting,
-    onPressUser,
-    onPressVehicle,
-    onPressOK,
-  ]);
+  // useEffect(() => {
+  //   isCheckedHome ? data.push('Home') : '';
+  //   isCheckedUser ? data.push('User') : '';
+  //   isCheckedAbout ? data.push('About') : '';
+  //   isCheckedAdmin ? data.push('Admin') : '';
+  //   isCheckedVehicle ? data.push('Vehicle') : '';
+  //   isCheckedLanguage ? data.push('Language') : '';
+  //   isCheckedApple ? data.push('Apple') : '';
+  //   isCheckedContact ? data.push('Contact') : '';
+  //   isCheckedBanana ? data.push('Banana') : '';
+  // }, [
+  //   onPressHome,
+  //   onPressAbout,
+  //   onPressAdmin,
+  //   onPressApple,
+  //   onPressBanana,
+  //   onPressContact,
+  //   onPressLanguage,
+  //   onPressSetting,
+  //   onPressUser,
+  //   onPressVehicle,
+  //   onPressOK,
+  // ]);
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <CheckScreen label="Home" isSelectdCheck={isCheckedHome} onPress={onPressHome} />
-      <CheckScreen label="User" isSelectdCheck={isCheckedUser} onPress={onPressUser} />
-      <CheckScreen label="About" isSelectdCheck={isCheckedAbout} onPress={onPressAbout} />
-      <CheckScreen label="Admin" isSelectdCheck={isCheckedAdmin} onPress={onPressAdmin} />
-      <CheckScreen label="Vehicle" isSelectdCheck={isCheckedVehicle} onPress={onPressVehicle} />
-      <CheckScreen label="Language" isSelectdCheck={isCheckedLanguage} onPress={onPressLanguage} />
-      <CheckScreen label="Apple" isSelectdCheck={isCheckedApple} onPress={onPressApple} />
-      <CheckScreen label="Contact" isSelectdCheck={isCheckedContact} onPress={onPressContact} />
-      <CheckScreen label="Banana" isSelectdCheck={isCheckedBanana} onPress={onPressBanana} />
-      <CheckScreen label="Setting" isSelectdCheck={isCheckedSetting} />
+      <FlatList
+        style={{ height: 400, width: '100%',paddingTop:50 }}
+        data={data1}
+        keyExtractor={(item: any) => item.id}
+        renderItem={({ item }) => (
+          <ItemCheckBoxScreen
+            id={item.id}
+            screen={item.screen}
+            selectedCheck={!!selectedCheck.get(item.id)}
+            onPress={() => onSelectCheck(item.id)}
+          />
+        )}
+        extraData={selectedCheck}
+      />
       <View style={styles.viewFooter}>
         <TouchableOpacity style={styles.touchFooter} onPress={onPressOK}>
           <Text>OK</Text>
