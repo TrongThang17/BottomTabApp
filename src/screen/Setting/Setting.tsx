@@ -15,278 +15,254 @@ import Language from '../language/Language';
 import User from '../user/User';
 import Vehicle from '../vehicle/Vehicle';
 import Modal from 'react-native-modal';
+
 import { image } from '../../../assets/img/imgages';
+let array: any = [];
+let arrIndexFalse: any = [];
+let arrIndexTrue: any = [];
+let position1: any, position2: any;
+
+const data = [
+  {
+    id: 1,
+    screen: 'Home',
+    tab: Home,
+    icon: image.home,
+  },
+  {
+    id: 2,
+    screen: 'Contact',
+    tab: Contact,
+    icon: image.contact,
+  },
+  {
+    id: 3,
+    screen: 'User',
+    tab: User,
+    icon: image.user,
+  },
+  {
+    id: 4,
+    screen: 'Admin',
+    tab: Admin,
+    icon: image.admin,
+  },
+  {
+    id: 5,
+    screen: 'About',
+    tab: About,
+    icon: image.about,
+  },
+  {
+    id: 6,
+    screen: 'Apple',
+    tab: Apple,
+    icon: image.home,
+  },
+  {
+    id: 7,
+    screen: 'Banana',
+    tab: Banana,
+    icon: image.contact,
+  },
+  {
+    id: 8,
+    screen: 'Language',
+    tab: Language,
+    icon: image.user,
+  },
+  {
+    id: 9,
+    screen: 'Vehicle',
+    tab: Vehicle,
+    icon: image.admin,
+  },
+  {
+    id: 10,
+    screen: 'Setting',
+
+    icon: image.setting,
+  },
+];
+const data1 = [
+  {
+    id: 1,
+    screen: 'Home',
+    tab: Home,
+    icon: image.home,
+  },
+  {
+    id: 2,
+    screen: 'Contact',
+    tab: Contact,
+    icon: image.contact,
+  },
+  {
+    id: 3,
+    screen: 'User',
+    tab: User,
+    icon: image.user,
+  },
+  {
+    id: 4,
+    screen: 'Admin',
+    tab: Admin,
+    icon: image.admin,
+  },
+  {
+    id: 5,
+    screen: 'About',
+    tab: About,
+    icon: image.about,
+  },
+  {
+    id: 6,
+    screen: 'Apple',
+    tab: Apple,
+    icon: image.home,
+  },
+  {
+    id: 7,
+    screen: 'Banana',
+    tab: Banana,
+    icon: image.contact,
+  },
+  {
+    id: 8,
+    screen: 'Language',
+    tab: Language,
+    icon: image.user,
+  },
+  {
+    id: 9,
+    screen: 'Vehicle',
+    tab: Vehicle,
+    icon: image.admin,
+  },
+  {
+    id: 10,
+    screen: 'Setting',
+
+    icon: image.setting,
+  },
+];
+let dataScreen: any = [];
 const Setting = () => {
-  // const [isCheckedHome, setIsCheckedHome] = useState(false);
-  // const [isCheckedUser, setIsCheckedUser] = useState(false);
-  // const [isCheckedBanana, setIsCheckedBanana] = useState(false);
-  // const [isCheckedApple, setIsCheckedApple] = useState(false);
-  // const [isCheckedAdmin, setIsCheckedAdmin] = useState(false);
-  // const [isCheckedContact, setIsCheckedContact] = useState(false);
-  // const [isCheckedLanguage, setIsCheckedLanguage] = useState(false);
-  // const [isCheckedVehicle, setIsCheckedVehicle] = useState(false);
-  // const [isCheckedSetting, setIsCheckedSetting] = useState(true);
-  // const [isCheckedAbout, setIsCheckedAbout] = useState(false);
   const [selectedCheck, setSelectedCheck]: any = useState(new Map());
-  const [allDataCheckbox, setAllDataCheckbox]: any = useState([]);
+  // const [unCheck, setUnCheck]: any = useState(new Map());
+  // const [allDataCheckbox, setAllDataCheckbox]: any = useState([]);
   const [modalShowErr, setModalShowErr] = useState(false);
   const dispatch = useDispatch();
-  const dataScreen = useSelector((state: any) => state.reducerChangeTab.data);
-  const dataScreen1 = useSelector((state: any) => state.reducerChangeTab.data1);
-  const inf = useSelector((state: any) => state.reducerChangeTab.data);
-  const data1 = [
-    {
-      id: 1,
-      screen: 'Home',
+  const dataRedux = useSelector((state: any) => state.reducerChangeTab.data1);
 
-      icon: image.home,
-    },
-    {
-      id: 2,
-      screen: 'Contact',
+  let arr: any = data;
 
-      icon: image.contact,
-    },
-    {
-      id: 3,
-      screen: 'User',
+  useEffect(() => {
+    const newSelectedCheck = new Map(selectedCheck);
+    data1.forEach((el: any) => {
+      dataRedux.forEach((el1: any) => {
+        if (el.screen == el1.screen) {
+          newSelectedCheck.set(el.id, !selectedCheck.get(el.id));
+          setSelectedCheck(newSelectedCheck);
+          array.push(el);
+        }
+      });
+    });
+  }, [dataRedux]);
 
-      icon: image.user,
-    },
-    {
-      id: 4,
-      screen: 'Admin',
-
-      icon: image.admin,
-    },
-    {
-      id: 5,
-      screen: 'Setting',
-
-      icon: image.setting,
-    },
-    {
-      id: 6,
-      screen: 'Apple',
-
-      icon: image.home,
-    },
-    {
-      id: 7,
-      screen: 'Banana',
-
-      icon: image.contact,
-    },
-    {
-      id: 8,
-      screen: 'Language',
-
-      icon: image.user,
-    },
-    {
-      id: 9,
-      screen: 'Vehicle',
-
-      icon: image.admin,
-    },
-    {
-      id: 10,
-      screen: 'Setting',
-
-      icon: image.setting,
-    },
-  ];
-
-  // const onSelectCheck = useCallback(
-  //   (id: any) => {
-  //     const newSelected = new Map(selectedCheck);
-  //     newSelected.set(id, !selectedCheck.get(id));
-  //     setSelectedCheck(newSelected);
-  //   },
-  //   [selectedCheck]
-  // );
   const onSelectCheck = (id: any) => {
     const newSelectedCheck = new Map(selectedCheck);
-    let arr: any = data1;
-    console.log(id)
     newSelectedCheck.set(id, !selectedCheck.get(id));
-    setSelectedCheck(newSelectedCheck);
+
+    if (newSelectedCheck.get(id) == false) {
+      arr.forEach((element: any) => {
+        if (element.id == id) {
+          arrIndexFalse.push(element);
+
+          position1 = arr.indexOf(arrIndexFalse[0]);
+          console.log('first', position1);
+        }
+      });
+    }
+    if (newSelectedCheck.get(id) == true) {
+      arr.forEach((element: any) => {
+        if (element.id == id) {
+          arrIndexTrue.push(element);
+
+          arr.forEach((element: any) => {
+            arrIndexTrue.forEach((el1: any) => {
+              if (element.id == el1.id) {
+                let temp: any = '';
+                position2 = arr.indexOf(el1);
+                console.log('second', position2);
+
+                temp = arr[arr.indexOf(arrIndexFalse[0])];
+                arr[arr.indexOf(arrIndexFalse[0])] = arr[position2];
+                arr[position2] = temp;
+
+                console.log('effect temp', temp);
+                console.log('effect 11', arr[position1]);
+                console.log('effect 22', arr[position2]);
+                console.log('alo', arr.indexOf(arrIndexFalse[0]));
+                arrIndexFalse.splice(position1, 1);
+
+                arrIndexTrue.splice(position1, 1);
+              }
+            });
+          });
+        }
+      });
+    }
+    let dataTemp: any = [];
     arr.forEach((element: any) => {
       if (newSelectedCheck.get(element.id) == true) {
-        arr.push(element.screen);
+        console.log('resutl : ', element);
+        dataTemp.push(element);
       }
     });
-    setAllDataCheckbox(arr);
+    console.log('dtaaTem', dataTemp);
+    dataScreen = dataTemp;
+
+    if (newSelectedCheck.get(id) == false) {
+      newSelectedCheck.delete(id);
+      array.forEach((el: any) => {
+        if (el.id == id) {
+          el;
+        }
+      });
+    }
+
+    setSelectedCheck(newSelectedCheck);
   };
 
-  // const onPressHome = useCallback(() => {
-  //   isCheckedHome ? setIsCheckedHome(false) : setIsCheckedHome(true);
-  // }, [isCheckedHome]);
-  // const onPressUser = useCallback(() => {
-  //   isCheckedUser ? setIsCheckedUser(false) : setIsCheckedUser(true);
-  // }, [isCheckedUser]);
-  // const onPressBanana = useCallback(() => {
-  //   isCheckedBanana ? setIsCheckedBanana(false) : setIsCheckedBanana(true);
-  // }, [isCheckedBanana]);
-  // const onPressApple = useCallback(() => {
-  //   isCheckedApple ? setIsCheckedApple(false) : setIsCheckedApple(true);
-  // }, [isCheckedApple]);
-  // const onPressAdmin = useCallback(() => {
-  //   isCheckedAdmin ? setIsCheckedAdmin(false) : setIsCheckedAdmin(true);
-  // }, [isCheckedAdmin]);
-  // const onPressContact = useCallback(() => {
-  //   isCheckedContact ? setIsCheckedContact(false) : setIsCheckedContact(true);
-  // }, [isCheckedContact]);
-  // const onPressLanguage = useCallback(() => {
-  //   isCheckedLanguage ? setIsCheckedLanguage(false) : setIsCheckedLanguage(true);
-  // }, [isCheckedLanguage]);
-  // const onPressVehicle = useCallback(() => {
-  //   isCheckedVehicle ? setIsCheckedVehicle(false) : setIsCheckedVehicle(true);
-  // }, [isCheckedVehicle]);
-  // const onPressSetting = useCallback(() => {
-  //   isCheckedSetting ? setIsCheckedSetting(false) : setIsCheckedSetting(true);
-  // }, [isCheckedSetting]);
-  // const onPressAbout = useCallback(() => {
-  //   isCheckedAbout ? setIsCheckedAbout(false) : setIsCheckedAbout(true);
-  // }, [isCheckedAbout]);
+  console.log('arrTest', dataScreen.length);
 
   const onPressOK = () => {
-    // data.length == 4
-    //   ? [
-    //       setModalShowErr(false),
-    //       dispatch({
-    //         type: f.SELECT_SCREEN,
-    //         payload: {
-    //           data,
-    //         },
-    //       }),
-    //     ]
-    //   : setModalShowErr(true);
-    // selectedCheck.forEach((el: any) => {
-    //   console.log(!selectedCheck.get(el.screen));
-    // });
-    console.log(selectedCheck);
+    dataScreen.length == 5
+      ? [
+          setModalShowErr(false),
+          dispatch({
+            type: f.SELECT_SCREEN,
+            payload: {
+              dataScreen,
+            },
+          }),
+        ]
+      : setModalShowErr(true);
+    selectedCheck.forEach((el: any) => {
+      console.log(!selectedCheck.get(el.screen));
+    });
+    // console.log(selectedCheck);
   };
-
-  // useEffect(() => {
-  //   let tab1: string, tab2: string, tab3: string, tab4: string;
-  //   (tab1 = dataScreen[0]),
-  //     (tab2 = dataScreen[1]),
-  //     (tab3 = dataScreen[2]),
-  //     (tab4 = dataScreen[3]),
-  //     tab1 == 'Home'
-  //       ? setIsCheckedHome(true)
-  //       : tab1 == 'User'
-  //       ? setIsCheckedUser(true)
-  //       : tab1 == 'About'
-  //       ? setIsCheckedAbout(true)
-  //       : tab1 == 'Contact'
-  //       ? setIsCheckedContact(true)
-  //       : tab1 == 'Language'
-  //       ? setIsCheckedLanguage(true)
-  //       : tab1 == 'Vehicle'
-  //       ? setIsCheckedVehicle(true)
-  //       : tab1 == 'Admin'
-  //       ? setIsCheckedAdmin(true)
-  //       : tab1 == 'Apple'
-  //       ? setIsCheckedApple(true)
-  //       : tab1 == 'Banana'
-  //       ? setIsCheckedBanana(true)
-  //       : '';
-
-  //   tab2 == 'Home'
-  //     ? setIsCheckedHome(true)
-  //     : tab2 == 'User'
-  //     ? setIsCheckedUser(true)
-  //     : tab2 == 'About'
-  //     ? setIsCheckedAbout(true)
-  //     : tab2 == 'Contact'
-  //     ? setIsCheckedContact(true)
-  //     : tab2 == 'Language'
-  //     ? setIsCheckedLanguage(true)
-  //     : tab2 == 'Vehicle'
-  //     ? setIsCheckedVehicle(true)
-  //     : tab2 == 'Admin'
-  //     ? setIsCheckedAdmin(true)
-  //     : tab2 == 'Apple'
-  //     ? setIsCheckedApple(true)
-  //     : tab2 == 'Banana'
-  //     ? setIsCheckedBanana(true)
-  //     : '';
-
-  //   tab3 == 'Home'
-  //     ? setIsCheckedHome(true)
-  //     : tab3 == 'User'
-  //     ? setIsCheckedUser(true)
-  //     : tab3 == 'About'
-  //     ? setIsCheckedAbout(true)
-  //     : tab3 == 'Contact'
-  //     ? setIsCheckedContact(true)
-  //     : tab3 == 'Language'
-  //     ? setIsCheckedLanguage(true)
-  //     : tab3 == 'Vehicle'
-  //     ? setIsCheckedVehicle(true)
-  //     : tab3 == 'Admin'
-  //     ? setIsCheckedAdmin(true)
-  //     : tab3 == 'Apple'
-  //     ? setIsCheckedApple(true)
-  //     : tab3 == 'Banana'
-  //     ? setIsCheckedBanana(true)
-  //     : '';
-
-  //   tab4 == 'Home'
-  //     ? setIsCheckedHome(true)
-  //     : tab4 == 'User'
-  //     ? setIsCheckedUser(true)
-  //     : tab4 == 'About'
-  //     ? setIsCheckedAbout(true)
-  //     : tab4 == 'Contact'
-  //     ? setIsCheckedContact(true)
-  //     : tab4 == 'Language'
-  //     ? setIsCheckedLanguage(true)
-  //     : tab4 == 'Vehicle'
-  //     ? setIsCheckedVehicle(true)
-  //     : tab4 == 'Admin'
-  //     ? setIsCheckedAdmin(true)
-  //     : tab4 == 'Apple'
-  //     ? setIsCheckedApple(true)
-  //     : tab4 == 'Banana'
-  //     ? setIsCheckedBanana(true)
-  //     : '';
-  // }, []);
 
   const onHidePopUpERR = useCallback(() => {
     setModalShowErr(false);
   }, []);
 
-  // useEffect(() => {
-  //   isCheckedHome ? data.push('Home') : '';
-  //   isCheckedUser ? data.push('User') : '';
-  //   isCheckedAbout ? data.push('About') : '';
-  //   isCheckedAdmin ? data.push('Admin') : '';
-  //   isCheckedVehicle ? data.push('Vehicle') : '';
-  //   isCheckedLanguage ? data.push('Language') : '';
-  //   isCheckedApple ? data.push('Apple') : '';
-  //   isCheckedContact ? data.push('Contact') : '';
-  //   isCheckedBanana ? data.push('Banana') : '';
-  // }, [
-  //   onPressHome,
-  //   onPressAbout,
-  //   onPressAdmin,
-  //   onPressApple,
-  //   onPressBanana,
-  //   onPressContact,
-  //   onPressLanguage,
-  //   onPressSetting,
-  //   onPressUser,
-  //   onPressVehicle,
-  //   onPressOK,
-  // ]);
-
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <FlatList
-        style={{ height: 400, width: '100%',paddingTop:50 }}
+        style={{ height: 400, width: '100%' }}
         data={data1}
         keyExtractor={(item: any) => item.id}
         renderItem={({ item }) => (

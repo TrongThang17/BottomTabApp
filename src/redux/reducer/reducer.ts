@@ -6,7 +6,7 @@ const reducerChangeTab = (state = initScreen, {type, payload}: any) => {
     case f.SELECT_SCREEN:
       return {
         ...state,
-        data: payload.data,
+        data1: payload.dataScreen,
       };
     default:
       return state;

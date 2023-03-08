@@ -29,11 +29,12 @@ const ItemCheckBoxScreen: React.FC<customProps> = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height:70,
+    width:'100%',
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#ccd0d9',
-    marginBottom: 10,
+    marginTop: 10,
     borderRadius: 70,
   },
   checkbox: {
