@@ -3,6 +3,7 @@ import User from "../../screen/user/User";
 import Contact from "../../screen/contact/Contact";
 import Admin from "../../screen/admin/Admin";
 import Setting from "../../screen/setting/Setting";
+import NavHome from "../../../tabnavigation/NavHome";
 import { image } from "../../../assets/img/imgages";
 const initScreen = {
   data: ['Home', 'User', 'Contact', 'Admin'],
@@ -10,7 +11,7 @@ const initScreen = {
     {
       id:1,
       screen:'Home',
-      tab:Home,
+      tab:NavHome,
       icon:image.home
     },
     {

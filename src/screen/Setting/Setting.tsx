@@ -15,7 +15,8 @@ import Language from '../language/Language';
 import User from '../user/User';
 import Vehicle from '../vehicle/Vehicle';
 import Modal from 'react-native-modal';
-
+import NavHome from '../../../tabnavigation/NavHome';
+import Notification from '../notification/Notification';
 import { image } from '../../../assets/img/imgages';
 let array: any = [];
 let arrIndexFalse: any = [];
@@ -26,7 +27,7 @@ const data = [
   {
     id: 1,
     screen: 'Home',
-    tab: Home,
+    tab: NavHome,
     icon: image.home,
   },
   {
@@ -57,38 +58,38 @@ const data = [
     id: 6,
     screen: 'Apple',
     tab: Apple,
-    icon: image.home,
+    icon: image.apple,
   },
   {
     id: 7,
     screen: 'Banana',
     tab: Banana,
-    icon: image.contact,
+    icon: image.banana,
   },
   {
     id: 8,
     screen: 'Language',
     tab: Language,
-    icon: image.user,
+    icon: image.language,
   },
   {
     id: 9,
     screen: 'Vehicle',
     tab: Vehicle,
-    icon: image.admin,
+    icon: image.vehicle,
   },
   {
     id: 10,
     screen: 'Setting',
-
     icon: image.setting,
   },
+ 
 ];
 const data1 = [
   {
     id: 1,
     screen: 'Home',
-    tab: Home,
+    tab: NavHome,
     icon: image.home,
   },
   {
@@ -119,44 +120,42 @@ const data1 = [
     id: 6,
     screen: 'Apple',
     tab: Apple,
-    icon: image.home,
+    icon: image.apple,
   },
   {
     id: 7,
     screen: 'Banana',
     tab: Banana,
-    icon: image.contact,
+    icon: image.banana,
   },
   {
     id: 8,
     screen: 'Language',
     tab: Language,
-    icon: image.user,
+    icon: image.language,
   },
   {
     id: 9,
     screen: 'Vehicle',
     tab: Vehicle,
-    icon: image.admin,
+    icon: image.vehicle,
   },
   {
     id: 10,
     screen: 'Setting',
-
     icon: image.setting,
   },
 ];
 let dataScreen: any = [];
 const Setting = () => {
   const [selectedCheck, setSelectedCheck]: any = useState(new Map());
-  // const [unCheck, setUnCheck]: any = useState(new Map());
-  // const [allDataCheckbox, setAllDataCheckbox]: any = useState([]);
   const [modalShowErr, setModalShowErr] = useState(false);
   const dispatch = useDispatch();
   const dataRedux = useSelector((state: any) => state.reducerChangeTab.data1);
-
+  const screenSetting = useSelector((state: any) => state.reducerChangeTab.data1[4]);
   let arr: any = data;
 
+  // useEffect when app render in the first time from data redux
   useEffect(() => {
     const newSelectedCheck = new Map(selectedCheck);
     data1.forEach((el: any) => {
@@ -168,91 +167,103 @@ const Setting = () => {
         }
       });
     });
-  }, [dataRedux]);
+  }, []);
 
   const onSelectCheck = (id: any) => {
     const newSelectedCheck = new Map(selectedCheck);
     newSelectedCheck.set(id, !selectedCheck.get(id));
 
+    //disable select chexbox setting
+    if (newSelectedCheck.get(10) == false) {
+      newSelectedCheck.set(10, selectedCheck.get(10));
+    }
+
     if (newSelectedCheck.get(id) == false) {
       arr.forEach((element: any) => {
         if (element.id == id) {
           arrIndexFalse.push(element);
-
           position1 = arr.indexOf(arrIndexFalse[0]);
-          console.log('first', position1);
         }
       });
-    }
-    if (newSelectedCheck.get(id) == true) {
-      arr.forEach((element: any) => {
-        if (element.id == id) {
-          arrIndexTrue.push(element);
 
+      // run with length of arrIndexTrue != 0
+      if (arrIndexTrue.length != 0) {
+        if (id != 10) {
           arr.forEach((element: any) => {
-            arrIndexTrue.forEach((el1: any) => {
-              if (element.id == el1.id) {
-                let temp: any = '';
-                position2 = arr.indexOf(el1);
-                console.log('second', position2);
-
-                temp = arr[arr.indexOf(arrIndexFalse[0])];
-                arr[arr.indexOf(arrIndexFalse[0])] = arr[position2];
-                arr[position2] = temp;
-
-                console.log('effect temp', temp);
-                console.log('effect 11', arr[position1]);
-                console.log('effect 22', arr[position2]);
-                console.log('alo', arr.indexOf(arrIndexFalse[0]));
-                arrIndexFalse.splice(position1, 1);
-
-                arrIndexTrue.splice(position1, 1);
-              }
-            });
+            if (element.id == id) {
+              arrIndexTrue.push(element);
+              arr.forEach((element: any) => {
+                arrIndexTrue.forEach((el1: any) => {
+                  if (element.id == el1.id) {
+                    let temp: any = '';
+                    position2 = arr.indexOf(el1);
+                    temp = arr[arr.indexOf(arrIndexFalse[0])];
+                    arr[arr.indexOf(arrIndexFalse[0])] = arr[position2];
+                    arr[position2] = temp;
+                    arrIndexFalse.splice(position1, 1);
+                    arrIndexTrue.splice(position1, 1);
+                  }
+                });
+              });
+            }
           });
         }
-      });
+      }
     }
+    
+    if (newSelectedCheck.get(id) == true) {
+      // run with length of arrIndexFalse != 0
+      if (arrIndexFalse.length != 0) {
+        arr.forEach((element: any) => {
+          if (element.id == id) {
+            arrIndexTrue.push(element);
+            arr.forEach((element: any) => {
+              arrIndexTrue.forEach((el1: any) => {
+                if (element.id == el1.id) {
+                  let temp: any = '';
+                  position2 = arr.indexOf(el1);
+                  temp = arr[arr.indexOf(arrIndexFalse[0])];
+                  arr[arr.indexOf(arrIndexFalse[0])] = arr[position2];
+                  arr[position2] = temp;      
+                  arrIndexFalse.splice(position1, 1);
+                  arrIndexTrue.splice(position1, 1);
+                }
+              });
+            });
+          }
+        });
+      }
+    }
+   
     let dataTemp: any = [];
     arr.forEach((element: any) => {
-      if (newSelectedCheck.get(element.id) == true) {
-        console.log('resutl : ', element);
+      if (element.screen == 'Setting') {
+        dataTemp.push(screenSetting);
+      } else if (newSelectedCheck.get(element.id) == true) {
         dataTemp.push(element);
       }
     });
-    console.log('dtaaTem', dataTemp);
     dataScreen = dataTemp;
-
-    if (newSelectedCheck.get(id) == false) {
-      newSelectedCheck.delete(id);
-      array.forEach((el: any) => {
-        if (el.id == id) {
-          el;
-        }
-      });
-    }
-
     setSelectedCheck(newSelectedCheck);
   };
 
-  console.log('arrTest', dataScreen.length);
-
   const onPressOK = () => {
-    dataScreen.length == 5
-      ? [
-          setModalShowErr(false),
+    // dataScreen.length == 5
+    //   ? [
+          // setModalShowErr(false),
           dispatch({
             type: f.SELECT_SCREEN,
             payload: {
               dataScreen,
             },
           }),
-        ]
-      : setModalShowErr(true);
+          // arrIndexFalse=[]
+          // arrIndexTrue=[]
+      //   ]
+      // : setModalShowErr(true);
+
     selectedCheck.forEach((el: any) => {
-      console.log(!selectedCheck.get(el.screen));
     });
-    // console.log(selectedCheck);
   };
 
   const onHidePopUpERR = useCallback(() => {

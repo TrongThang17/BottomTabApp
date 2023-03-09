@@ -1,0 +1,12 @@
+import { View, Text } from 'react-native'
+import React from 'react'
+
+const User1 = () => {
+  return (
+    <View>
+      <Text>User1</Text>
+    </View>
+  )
+}
+
+export default User1
