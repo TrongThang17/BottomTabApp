@@ -152,9 +152,9 @@ const Setting = () => {
   const [modalShowErr, setModalShowErr] = useState(false);
   const dispatch = useDispatch();
   const dataRedux = useSelector((state: any) => state.reducerChangeTab.data1);
-  const screenSetting = useSelector((state: any) => state.reducerChangeTab.data1[4]);
+  const screenSetting = useSelector((state: any) => state.reducerChangeTab.data1);
   let arr: any = data;
-
+  
   // useEffect when app render in the first time from data redux
   useEffect(() => {
     const newSelectedCheck = new Map(selectedCheck);
@@ -175,7 +175,7 @@ const Setting = () => {
 
     //disable select chexbox setting
     if (newSelectedCheck.get(10) == false) {
-      newSelectedCheck.set(10, selectedCheck.get(10));
+      newSelectedCheck.set(10, true);
     }
 
     if (newSelectedCheck.get(id) == false) {
@@ -234,11 +234,19 @@ const Setting = () => {
         });
       }
     }
-   
     let dataTemp: any = [];
+    let positionSetting:any 
+
+   screenSetting.forEach((el:any)=>{
+    if(el.screen == 'Setting'){
+      positionSetting = screenSetting.indexOf(el)
+    }
+   })
+  
+    
     arr.forEach((element: any) => {
       if (element.screen == 'Setting') {
-        dataTemp.push(screenSetting);
+        dataTemp.push(screenSetting[positionSetting]);
       } else if (newSelectedCheck.get(element.id) == true) {
         dataTemp.push(element);
       }
@@ -248,22 +256,12 @@ const Setting = () => {
   };
 
   const onPressOK = () => {
-    // dataScreen.length == 5
-    //   ? [
-          // setModalShowErr(false),
           dispatch({
             type: f.SELECT_SCREEN,
             payload: {
               dataScreen,
             },
-          }),
-          // arrIndexFalse=[]
-          // arrIndexTrue=[]
-      //   ]
-      // : setModalShowErr(true);
-
-    selectedCheck.forEach((el: any) => {
-    });
+          })
   };
 
   const onHidePopUpERR = useCallback(() => {
